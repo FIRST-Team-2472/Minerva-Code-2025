@@ -11,12 +11,14 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.TargetPosConstants;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.swerveExtras.NewNewAccelLimiter;
 
 public class SwerveJoystickCmd extends Command {
 
     private final SwerveSubsystem swerveSubsystem;
     private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
     private final Supplier<Boolean> slowed;
+    private final NewNewAccelLimiter xLimiter, yLimiter;
     private PIDController turningController;
 
     public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
@@ -27,6 +29,9 @@ public class SwerveJoystickCmd extends Command {
         this.ySpdFunction = ySpdFunction;
         this.turningSpdFunction = turningSpdFunction;
         this.slowed = slowed;
+
+        xLimiter = new NewNewAccelLimiter(.02, .1);
+        yLimiter = new NewNewAccelLimiter(.02, .1);
 
         addRequirements(swerveSubsystem);
 
@@ -86,6 +91,8 @@ public class SwerveJoystickCmd extends Command {
             turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
         }
 
+        xSpeed = xLimiter.calculate(xSpeed);
+        ySpeed = yLimiter.calculate(ySpeed);
         swerveSubsystem.executeJoystickRunFromField(xSpeed, ySpeed, turningSpeed);
 
     }
