@@ -57,11 +57,11 @@ public class PitchMotorCmd extends Command {
             if (!intakeButton.get())
                 armPitchSubsystem.runPitchMotor(pitchMotorSpeed);
             else{
-                if(armPitchSubsystem.getEncoderDeg() > 5){
-                    armPitchSubsystem.runPitchMotorWithFasterKP(ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
-                }else{
-                    armPitchSubsystem.runPitchMotor(pitchMotorSpeed, true);
-                }
+                //if(armPitchSubsystem.getEncoderDeg() > 5){
+                //    armPitchSubsystem.runPitchMotorWithFasterKP(ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
+                //}else{
+                //    armPitchSubsystem.runPitchMotor(pitchMotorSpeed, true);
+                //}
             }
 
         }

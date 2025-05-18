@@ -58,16 +58,9 @@ public class SwerveJoystickCmd extends Command {
         double xSpeed;
         double ySpeed;
 
-        // calculate speed based off joystick value
-        if (!slowed.get()) {
-            xSpeed = input_2_speed(xInput);
-            ySpeed = input_2_speed(yInput);
-
-        } else {
             xSpeed = xInput;
             ySpeed = yInput;
-        }
-        ;
+
 
         // deadband (area that doesnt actually result in an input)
         xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband

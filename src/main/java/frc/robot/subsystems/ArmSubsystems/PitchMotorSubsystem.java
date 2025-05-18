@@ -18,6 +18,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmMotorsConstants;
 import frc.robot.Constants.ArmMotorsConstants.*;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.RobotStatus;
 
 public class PitchMotorSubsystem extends SubsystemBase {
     private SparkMax pitchMotor = new SparkMax(PitchMotor.kPitchMotorId, MotorType.kBrushless);
@@ -133,7 +134,8 @@ public class PitchMotorSubsystem extends SubsystemBase {
      * @return the encoder's rotation
      */
     public double getEncoderDeg() {
-        return (pitchMotorEncoder.get() * 360 + PitchMotor.kPitchEncoderOffset);
+        RobotStatus.armAngle = (pitchMotorEncoder.get() * 360 + PitchMotor.kPitchEncoderOffset);
+        return RobotStatus.armAngle;
     }
 
 

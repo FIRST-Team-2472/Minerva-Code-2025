@@ -5,7 +5,9 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotStatus;
 import frc.robot.subsystems.ArmSubsystems.*;
+
 
 public class IntakeMotorCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
@@ -15,7 +17,7 @@ public class IntakeMotorCmd extends Command {
     private IntakeMotorSubsystem intakeMotorSubsystem;
     private Timer timer = new Timer();
 
-    public IntakeMotorCmd(IntakeMotorSubsystem intakeMotorSubsystem, 
+    public IntakeMotorCmd(IntakeMotorSubsystem intakeMotorSubsystem,
          Supplier<Boolean> intakeMotorsRunning, Supplier<Boolean> reversed){
         sensed = false;
         this.intakeMotorsRunning = intakeMotorsRunning;
@@ -46,14 +48,14 @@ public class IntakeMotorCmd extends Command {
         //runs the push motor until it hit the sensor
         pushMotorSpeed = 0.0;
         pushMotorSpeed = reversed.get() ? -.2 : pushMotorSpeed;
-        pushMotorSpeed = intakeMotorsRunning.get() && !sensed ? 1 : pushMotorSpeed;
+        if (RobotStatus.armAngle > 60)pushMotorSpeed = intakeMotorsRunning.get() && !sensed ? .3 : pushMotorSpeed;
         intakeMotorSubsystem.runPushMotor(pushMotorSpeed);
 
 
         //runs the intake motors until the sensor is triggered
         intakeMotorsSpeed = 0.0;
         intakeMotorsSpeed = reversed.get() ? -0.2 : intakeMotorsSpeed;
-        intakeMotorsSpeed = intakeMotorsRunning.get() && !sensed ? 1 : intakeMotorsSpeed;
+        intakeMotorsSpeed = intakeMotorsRunning.get() && !sensed ? .3 : intakeMotorsSpeed;
         intakeMotorSubsystem.runIntakeMotors(intakeMotorsSpeed);
         
         super.execute();
