@@ -119,19 +119,21 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 13).onTrue(new InstantCommand(swerveSubsystem :: disableCams));
     new JoystickButton(rightJoystick, 2).onTrue(new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 2000));
 
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).button(7).onTrue(new InstantCommand(swerveSubsystem :: zeroHeading));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).leftBumper().onTrue(new SmallPnuematicsCmd(pneumaticsSubsystem));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).rightBumper().onTrue(new InstantCommand(pneumaticsSubsystem :: toggleBigpneumatics));
 
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, 40));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
-    
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).b().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, 20));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).a().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle-25));
+    new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle));
+
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).x().onTrue(new SetArmPitchCmd(pitchMotorSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorAmpPresetAngle));
     new CommandXboxController(OperatorConstants.kXboxControllerPort).rightTrigger(0.5).onTrue(new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, 0.9, 4000));
 
       //new CommandXboxController(OperatorConstants.kXboxControllerPort).leftTrigger(0.5).onTrue(new ShootNoteCmd(shootingMotorSubsystem, intakeMotorSubsystem, 0.4, 0));
     //new CommandXboxController(OperatorConstants.kXboxControllerPort).y().onTrue(new SetArmPitchCmd(armSubsystem, ArmMotorsConstants.PitchMotor.kPitchMotorStandbyPresetAngle));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue(new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
-    new CommandXboxController(OperatorConstants.kXboxControllerPort).back().onTrue(new ConstantAimToggleCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).start().onTrue(new FastAutoAimCmd(pitchMotorSubsystem, swerveSubsystem, shootingMotorSubsystem, intakeMotorSubsystem));
+    //new CommandXboxController(OperatorConstants.kXboxControllerPort).back().onTrue(new ConstantAimToggleCmd(swerveSubsystem, pitchMotorSubsystem, shootingMotorSubsystem));
   }
 
   public Command getAutonomousCommand() {
