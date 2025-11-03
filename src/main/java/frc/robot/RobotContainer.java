@@ -69,7 +69,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     pitchMotorSubsystem.setDefaultCommand(new PitchMotorCmd(pitchMotorSubsystem, () -> -xbox.getRightY() * 0, () -> xbox.getRightTriggerAxis() > 0.5, () -> swerveSubsystem.getPose())); // Intake Motors
-    intakeMotorSubsystem.setDefaultCommand(new IntakeMotorCmd(intakeMotorSubsystem, () -> xbox.getRightTriggerAxis() > 0.5,
+    intakeMotorSubsystem.setDefaultCommand(new IntakeMotorCmd(intakeMotorSubsystem, () -> xbox.getRightTriggerAxis() > 0.5, () -> xbox.getLeftTriggerAxis() > 0.5,
     () -> xbox.getYButton()));
     shootingMotorSubsystem.setDefaultCommand(new ShooterMotorsCmd(shootingMotorSubsystem, () -> xbox.getYButton(), () -> swerveSubsystem.getPose()));
 

@@ -12,15 +12,16 @@ import frc.robot.subsystems.ArmSubsystems.*;
 public class IntakeMotorCmd extends Command {
     // Suppliers are used so we can get constant updates to the values
     private Double intakeMotorsSpeed, pushMotorSpeed;
-    private Supplier<Boolean> intakeMotorsRunning,  reversed;
+    private Supplier<Boolean> shooting, reversed, intaking;
     private boolean sensed;
     private IntakeMotorSubsystem intakeMotorSubsystem;
     private Timer timer = new Timer();
 
     public IntakeMotorCmd(IntakeMotorSubsystem intakeMotorSubsystem,
-         Supplier<Boolean> intakeMotorsRunning, Supplier<Boolean> reversed){
+         Supplier<Boolean> shooting, Supplier<Boolean> intaking, Supplier<Boolean> reversed){
         sensed = false;
-        this.intakeMotorsRunning = intakeMotorsRunning;
+        this.shooting = shooting;
+        this.intaking = intaking;
         this.intakeMotorSubsystem = intakeMotorSubsystem;
         this.reversed = reversed;
         addRequirements(intakeMotorSubsystem);
@@ -48,14 +49,15 @@ public class IntakeMotorCmd extends Command {
         //runs the push motor until it hit the sensor
         pushMotorSpeed = 0.0;
         pushMotorSpeed = reversed.get() ? -.2 : pushMotorSpeed;
-        if (RobotStatus.armAngle > 60)pushMotorSpeed = intakeMotorsRunning.get() && !sensed ? .3 : pushMotorSpeed;
+        if (RobotStatus.armAngle > 60)
+            pushMotorSpeed = (shooting.get() | intaking.get()) && !sensed ? .3 : pushMotorSpeed;
         intakeMotorSubsystem.runPushMotor(pushMotorSpeed);
 
 
         //runs the intake motors until the sensor is triggered
         intakeMotorsSpeed = 0.0;
         intakeMotorsSpeed = reversed.get() ? -0.2 : intakeMotorsSpeed;
-        intakeMotorsSpeed = intakeMotorsRunning.get() && !sensed ? .3 : intakeMotorsSpeed;
+        intakeMotorsSpeed = (shooting.get() | intaking.get()) && !sensed ? .3 : intakeMotorsSpeed;
         intakeMotorSubsystem.runIntakeMotors(intakeMotorsSpeed);
         
         super.execute();

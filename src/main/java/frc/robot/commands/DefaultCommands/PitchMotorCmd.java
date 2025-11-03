@@ -41,27 +41,28 @@ public class PitchMotorCmd extends Command {
     @Override
     public void execute() {
         // constantly update the pitch motor input
-        if(armPitchSubsystem.getConstantAim() && AutoAiming.getSmartDistance(robotPose.get()) < OperatorConstants.autoAimDistance){
+        if (armPitchSubsystem.getConstantAim()
+                && AutoAiming.getSmartDistance(robotPose.get()) < OperatorConstants.autoAimDistance) {
 
             double angleDeg = AutoAiming.getPitch(robotPose.get());
             armPitchSubsystem.runPitchMotorWithFasterKP(angleDeg);
-        }else{
+        } else {
             pitchMotorSpeed = pitchMotor.get();
 
             // applies a deadband
             if (pitchMotorSpeed < OIConstants.kArmDeadband && pitchMotorSpeed > -OIConstants.kArmDeadband)
                 pitchMotorSpeed = 0.0;
-            
+
             pitchMotorSpeed *= 0.45;// slows down the arm
 
             if (!intakeButton.get())
                 armPitchSubsystem.runPitchMotor(pitchMotorSpeed);
-            else{
-                //if(armPitchSubsystem.getEncoderDeg() > 5){
-                //    armPitchSubsystem.runPitchMotorWithFasterKP(ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
-                //}else{
-                //    armPitchSubsystem.runPitchMotor(pitchMotorSpeed, true);
-                //}
+            else {
+                // if(armPitchSubsystem.getEncoderDeg() > 5){
+                // armPitchSubsystem.runPitchMotorWithFasterKP(ArmMotorsConstants.PitchMotor.kPitchMotorIntakePresetAngle);
+                // }else{
+                // armPitchSubsystem.runPitchMotor(pitchMotorSpeed, true);
+                // }
             }
 
         }
